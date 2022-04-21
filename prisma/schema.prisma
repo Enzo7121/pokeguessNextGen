@@ -6,12 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = "file:./dev.db"
 }
 
 model Leaderboard {
-  id       String @id @default(uuid())
+  id       String   @id @default(uuid())
   username String
-  points   Int    @default(0)
+  points   Int      @default(0)
+  playedAt DateTime @default(now())
 }
