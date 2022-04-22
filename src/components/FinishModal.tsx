@@ -3,15 +3,13 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
   ModalBody,
   ModalFooter,
   Button,
   Input,
 } from "@chakra-ui/react";
 import React from "react";
-import useSWR from "swr";
-import { fetcher } from "../lib/helpers";
+import { useRouter } from "next/router";
 
 const FinishModal = ({
   isOpen,
@@ -22,25 +20,31 @@ const FinishModal = ({
   onClose: () => void;
   points: number;
 }) => {
+  const router = useRouter();
   const [username, setUsername] = React.useState("");
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    fetch("/api/leaderboard", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-        points,
-      }),
-    });
+    if (username) {
+      fetch("/api/leaderboard", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          points,
+        }),
+      });
+      router.push("/leaderboard");
+    }
     e.stopPropagation();
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Your earned {points} points</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           <Input
             value={username}

@@ -10,27 +10,28 @@ import {
   Flex,
   Spinner,
   Box,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { Pokemon } from "../src/types";
 import ProgressBar from "../src/components/ProgressBar";
 import { usePokemon } from "../src/lib/hooks/usePokemon";
 import { inc, TIME_LIMIT } from "../src/lib/constants";
 import { useSound } from "../src/lib/hooks/useSound";
 import { confetti } from "../src/lib/helpers";
-import { useGame } from "../src/lib/hooks/useGame";
 import FinishModal from "../src/components/FinishModal";
 
 function App() {
   const [pokemon, { loading, getPokemon }] = usePokemon();
   const { defeatSound, stopSound, victorySound } = useSound();
   const pokemonInput: any = useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [guessed, setGuessed] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [answered, setAnswered] = useState<boolean>(false);
   const [won, setWon] = useState<boolean>(false);
   const [missed, setMissed] = useState<number>(0);
-  const [time, setTime] = useState<number>(40);
+  const [time, setTime] = useState<number>(0);
+  const [points, setPoints] = useState<number>(0);
 
   const onHandleEnter = (e: any) => {
     if (e.key === "Enter" && !answered && name) {
@@ -41,10 +42,14 @@ function App() {
   };
 
   useEffect(() => {
-    const interval = setTimeout(() => {
-      setTime(inc);
-    }, 1000);
-    return () => clearTimeout(interval);
+    if (time <= TIME_LIMIT) {
+      const interval = setTimeout(() => {
+        setTime(inc);
+      }, 1000);
+      return () => clearTimeout(interval);
+    } else {
+      handleFinish();
+    }
   }, [time]);
 
   const handleAnswer = () => {
@@ -54,6 +59,7 @@ function App() {
     if (formattedName === pokemon.name) {
       victorySound();
       setGuessed(inc);
+      setPoints((prev: number) => prev + 10);
       localStorage.setItem("wins", String(inc(guessed)));
       setWon(true);
       confetti();
@@ -64,18 +70,12 @@ function App() {
     localStorage.setItem("misses", String(inc(missed)));
   };
   const handleFinish = () => {
-    console.log("terminei");
+    onOpen();
   };
 
   const handleChange = (e: any) => {
     setName(e.target.value);
   };
-
-  useEffect(() => {
-    if (time === TIME_LIMIT) {
-      handleFinish();
-    }
-  }, [time]);
 
   const handleReset = () => {
     stopSound();
@@ -93,7 +93,7 @@ function App() {
 
   return (
     <>
-      <FinishModal isOpen={time >= TIME_LIMIT} onClose={() => null} />
+      <FinishModal isOpen={isOpen} onClose={onClose} points={points} />
       <Flex
         alignItems="center"
         justifyContent="center"
@@ -109,7 +109,6 @@ function App() {
           maxW="500px"
           rounded="20px"
         >
-          {/* @ts-ignore */}
           <ProgressBar percentage={time * 3.3333} />
           <Center justifyContent="center" alignItems="center">
             <Stack
