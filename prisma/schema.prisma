@@ -12,7 +12,7 @@ datasource db {
 
 model Leaderboard {
   id       String   @id @default(uuid())
-  username String
+  username String   @default("guess")
   points   Int      @default(0)
   playedAt DateTime @default(now())
 }

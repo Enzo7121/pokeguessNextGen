@@ -81,7 +81,7 @@ export default function Leaderboard() {
             </Thead>
             <Tbody>
               {users &&
-                users
+                [...users]
                   .sort((a, b) => b.points - a.points)
                   .map(({ playedAt, points, username, id }) => (
                     <Tr key={id}>

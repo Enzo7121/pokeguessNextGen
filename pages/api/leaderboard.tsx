@@ -16,8 +16,10 @@ export default async function handler(
       try {
         const users = await prisma.leaderboard.findMany();
         res.status(200).json(users);
+        break;
       } catch (e) {
         return res.status(500).send(e);
+        break;
       }
     case "POST":
       try {
@@ -29,6 +31,7 @@ export default async function handler(
           },
         });
         res.status(200).json(user);
+        break;
       } catch (e) {
         return res.status(500).send(e);
       }

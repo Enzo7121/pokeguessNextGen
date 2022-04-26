@@ -31,7 +31,7 @@ const FinishModal = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username.trim(),
+          username,
           points,
         }),
       });
