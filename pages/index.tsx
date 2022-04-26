@@ -22,7 +22,7 @@ import HomePage from "../src/components/HomePage";
 
 function App() {
   const [pokemon, { loading, getPokemon }] = usePokemon();
-  const { defeatSound, stopSound, victorySound } = useSound();
+  const { defeatSound, stopSound, victorySound, finishSound } = useSound();
   const pokemonInput: any = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -61,12 +61,13 @@ function App() {
       victorySound();
       setPoints((prev: number) => prev + 10);
       setWon(true);
-      confetti();
       return;
     }
     defeatSound();
   };
   const handleFinish = () => {
+    finishSound();
+    confetti();
     onOpen();
   };
 
