@@ -31,7 +31,7 @@ const FinishModal = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username,
+          username: username.trim(),
           points,
         }),
       });
@@ -41,10 +41,10 @@ const FinishModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Your earned {points} points</ModalHeader>
+        <ModalHeader>You have won {points} points</ModalHeader>
         <ModalBody>
           <Input
             value={username}
