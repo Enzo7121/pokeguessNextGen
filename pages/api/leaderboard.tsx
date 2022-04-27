@@ -11,14 +11,9 @@ export default async function handler(
 
   switch (method) {
     case "GET":
-      try {
-        const users = await prisma.leaderboard.findMany();
-        res.status(200).json(users);
-        break;
-      } catch (e) {
-        return res.status(500).send(e);
-        break;
-      }
+      const users = await prisma.leaderboard.findMany();
+      res.status(200).json(users);
+      break;
     case "POST":
       try {
         const { username, points } = req.body;
