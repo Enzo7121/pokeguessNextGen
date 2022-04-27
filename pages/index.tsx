@@ -29,17 +29,8 @@ function App() {
   const [start, setStart] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [answered, setAnswered] = useState<boolean>(false);
-  const [won, setWon] = useState<boolean>(false);
   const [time, setTime] = useState<number>(0);
   const [points, setPoints] = useState<number>(0);
-
-  const onHandleEnter = (e: any) => {
-    if (e.key === "Enter" && !answered && name) {
-      handleAnswer();
-    } else if (e.key === "Enter" && answered) {
-      handleNext();
-    }
-  };
 
   useEffect(() => {
     if (!start) return;
@@ -60,7 +51,6 @@ function App() {
     if (formattedName === pokemon.name) {
       victorySound();
       setPoints((prev: number) => prev + 10);
-      setWon(true);
       return;
     }
     defeatSound();
@@ -80,8 +70,15 @@ function App() {
     pokemonInput.current.focus();
     setAnswered(false);
     setName("");
-    setWon(false);
     getPokemon();
+  };
+
+  const onHandleEnter = (e: any) => {
+    if (e.key === "Enter" && !answered && name) {
+      handleAnswer();
+    } else if (e.key === "Enter" && answered) {
+      handleNext();
+    }
   };
 
   return (
@@ -149,9 +146,7 @@ function App() {
                         autoFocus={true}
                         value={name}
                         border="4px"
-                        borderColor={
-                          !answered ? "black" : won ? "green" : "red"
-                        }
+                        borderColor="black"
                         padding={5}
                         placeholder="Pokemon name..."
                         ref={pokemonInput}
