@@ -45,8 +45,8 @@ export default function Leaderboard() {
       <Flex margin="auto" width="100vw" height="100vh" justifyContent="center">
         <Stack
           position="absolute"
-          top="0"
-          left="0"
+          top="2"
+          left="2"
           backgroundColor="white"
           rounded="lg"
           onClick={() => router.push("/")}
@@ -64,6 +64,7 @@ export default function Leaderboard() {
           </Button>
         </Stack>
         <TableContainer
+          rounded="lg"
           maxWidth="100%"
           margin="auto"
           bg="white"
