@@ -10,7 +10,7 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model Leaderboard {
+model leaderboard {
   id       String   @id @default(uuid())
   username String   @default("guess")
   points   Int      @default(0)
