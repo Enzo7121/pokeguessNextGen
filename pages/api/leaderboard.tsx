@@ -12,7 +12,6 @@ export default async function handler(
   switch (method) {
     case "GET":
       const users = await prisma.leaderboard.findMany();
-      console.log(users);
       res.json(users);
       break;
     case "POST":
