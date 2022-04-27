@@ -44,7 +44,7 @@ export default function Leaderboard() {
     <Flex>
       <Flex margin="auto" width="100vw" height="100vh" justifyContent="center">
         <Stack
-          position="absolute"
+          position="fixed"
           top="2"
           left="2"
           backgroundColor="white"

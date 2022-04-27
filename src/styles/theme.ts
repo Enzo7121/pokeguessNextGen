@@ -8,7 +8,7 @@ const theme = extendTheme({
                 background: "url('https://i.pinimg.com/originals/ca/e0/1a/cae01ab5cce960db0d7819cc96e97ce8.png')",
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-                overflow: 'hidden'
+                backgroundAttachment: 'fixed'
             }
         }
     },
